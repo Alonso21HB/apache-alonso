@@ -6,6 +6,19 @@ pipeline {
     }
 
     stages {
+        stage('Clonar Repositorio') {
+            steps {
+                sh '''
+                if [ ! -d ".git" ]; then
+                    git clone https://github.com/Alonso21HB/apache-alonso.git .
+                else
+                    git fetch origin
+                    BRANCH=$(git rev-parse --abbrev-ref HEAD)
+                    git reset --hard origin/$BRANCH
+                fi
+                '''
+            }
+        }
         stage('Preparar entorno') {
             steps {
                 script {
